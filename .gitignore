@@ -1,0 +1,7 @@
+.DS_Store
+.terraform
+terraform.tfvars
+terraform.tfstate
+terraform/terraform.tfstate.backup
+code/node_modules
+functions/*.js
