@@ -14,8 +14,8 @@ variable "cloudflare_domain" {
   type = string
 }
 variable "github_oauth_client_id" {
-  type = "string"
+  type = string
 }
 variable "github_oauth_client_secret" {
-  type = "string"
+  type = string
 }
