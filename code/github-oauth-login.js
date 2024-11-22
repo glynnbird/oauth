@@ -21,8 +21,13 @@ export async function onRequest (context) {
     })
   }
 
+  console.log('url', request.url)
+  let url = new URL(request.url)
+  const code = url.searchParams.get('code')
+  console.log('code', code)
+
   // redirect GET requests to the OAuth login page on github.com
-  if (context.request.method === 'GET') {
+  if (!code) {
     return Response.redirect(
       `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}`,
       302
@@ -30,15 +35,7 @@ export async function onRequest (context) {
   }
 
   try {
-    // parse the request as JSON
-    console.log('url', request.url)
-
-    const { code } = await request.json()
-    console.log('code', code)
-    return new Response(error.message, {
-      status: 500
-    })
-
+    
     const response = await fetch('https://github.com/login/oauth/access_token',
       {
         method: 'POST',
