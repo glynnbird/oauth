@@ -8,6 +8,9 @@ export async function onRequest (context) {
   const request = context.request
   const CLIENT_ID = context.env.CLIENT_ID
   const CLIENT_SECRET = context.env.CLIENT_SECRET
+  const headers = {
+    'Access-Control-Allow-Origin': '*'
+  }
 
   // handle OPTIONS requests for CORS
   if (request.method.toUpperCase() === 'OPTIONS') {
@@ -22,7 +25,7 @@ export async function onRequest (context) {
   }
 
   console.log('url', request.url)
-  let url = new URL(request.url)
+  const url = new URL(request.url)
   const code = url.searchParams.get('code')
   console.log('code', code)
 
@@ -35,8 +38,7 @@ export async function onRequest (context) {
   }
 
   try {
-    
-    const response = await fetch('https://github.com/login/oauth/access_token',
+    let response = await fetch('https://github.com/login/oauth/access_token',
       {
         method: 'POST',
         headers: {
@@ -49,15 +51,21 @@ export async function onRequest (context) {
     )
     const result = await response.json()
     console.log('result', result)
-    const headers = {
-      'Access-Control-Allow-Origin': '*'
-    }
+    const token = result.access_token
 
     if (result.error) {
       return new Response(JSON.stringify(result), { status: 401, headers })
     }
 
-    return new Response(JSON.stringify(result), {
+    response = await fetch('https://api.github.com/user', {
+      headers: {
+        accept: 'application/vnd.github.v3+json',
+        authorization: `token ${token}`
+      }
+    })
+    const json = await response.json()
+
+    return new Response(JSON.stringify(json), {
       status: 201,
       headers
     })
