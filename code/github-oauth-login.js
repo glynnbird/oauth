@@ -63,6 +63,7 @@ export async function onRequest (context) {
         authorization: `Bearer ${token}`
       }
     })
+    console.log(response)
     const json = await response.json()
 
     return new Response(JSON.stringify(json), {
