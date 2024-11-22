@@ -52,6 +52,7 @@ export async function onRequest (context) {
     const result = await response.json()
     console.log('result', result)
     const token = result.access_token
+    console.log('token', token)
 
     if (result.error) {
       return new Response(JSON.stringify(result), { status: 401, headers })
