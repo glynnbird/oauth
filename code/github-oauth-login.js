@@ -59,8 +59,8 @@ export async function onRequest (context) {
 
     response = await fetch('https://api.github.com/user', {
       headers: {
-        accept: 'application/vnd.github.v3+json',
-        authorization: `token ${token}`
+        accept: 'application/vnd.github+json',
+        authorization: `Bearer ${token}`
       }
     })
     const json = await response.json()
