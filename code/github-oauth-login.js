@@ -48,6 +48,7 @@ export async function onRequest (context) {
       }
     )
     const result = await response.json()
+    console.log('result', result)
     const headers = {
       'Access-Control-Allow-Origin': '*'
     }
@@ -56,7 +57,7 @@ export async function onRequest (context) {
       return new Response(JSON.stringify(result), { status: 401, headers })
     }
 
-    return new Response(JSON.stringify({ token: result.access_token }), {
+    return new Response(JSON.stringify(result), {
       status: 201,
       headers
     })
