@@ -60,10 +60,11 @@ export async function onRequest (context) {
     response = await fetch('https://api.github.com/user', {
       headers: {
         accept: 'application/vnd.github+json',
-        authorization: `Bearer ${token}`
+        authorization: `Bearer ${token}`,
+        'X-GitHub-Api-Version': '2022-11-28'
       }
     })
-    console.log(response)
+    console.log('user response', response.status, response.headers )
     const json = await response.json()
 
     return new Response(JSON.stringify(json), {
