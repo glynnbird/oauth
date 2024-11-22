@@ -31,7 +31,13 @@ export async function onRequest (context) {
 
   try {
     // parse the request as JSON
+    console.log('url', request.url)
+
     const { code } = await request.json()
+    console.log('code', code)
+    return new Response(error.message, {
+      status: 500
+    })
 
     const response = await fetch('https://github.com/login/oauth/access_token',
       {
